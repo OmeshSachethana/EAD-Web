@@ -16,6 +16,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI
     const { token } = await loginUser(credentials);
     const user = jwtDecode(token); // Decode JWT token
     localStorage.setItem('token', token); // Store token locally
+    console.log(user); // Log the decoded user data
     return { user, token };
   } catch (error) {
     // Check if error.response exists; if not, return a generic error message
