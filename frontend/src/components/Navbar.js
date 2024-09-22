@@ -22,13 +22,13 @@ const MyNavbar = () => {
         <Navbar.Brand as={Link} to="/">
           <img
             src="/logo.png"
-            alt="MyApp Logo"
+            alt="Ecommerce Logo"
             width="40"
             height="40"
             className="d-inline-block align-top"
             style={{ marginRight: '10px' }}
           />
-          MyApp
+          Ecommerce
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
