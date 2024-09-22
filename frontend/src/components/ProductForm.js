@@ -4,7 +4,14 @@ import { createProduct } from '../features/products/productSlice';
 
 const ProductForm = () => {
     const dispatch = useDispatch();
-    const [productData, setProductData] = useState({ name: '', category: '' });
+    const [productData, setProductData] = useState({ 
+        name: '', 
+        category: '', 
+        description: '', 
+        quantity: '', 
+        price: '', 
+        imageUrl: '' 
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,6 +37,34 @@ const ProductForm = () => {
                 name="category"
                 placeholder="Category"
                 value={productData.category}
+                onChange={handleChange}
+            />
+            <input
+                type="text"
+                name="description"
+                placeholder="Description"
+                value={productData.description}
+                onChange={handleChange}
+            />
+            <input
+                type="number"
+                name="quantity"
+                placeholder="Quantity"
+                value={productData.quantity}
+                onChange={handleChange}
+            />
+            <input
+                type="number"
+                name="price"
+                placeholder="Price"
+                value={productData.price}
+                onChange={handleChange}
+            />
+            <input
+                type="text"
+                name="imageUrl"
+                placeholder="Image URL"
+                value={productData.imageUrl}
                 onChange={handleChange}
             />
             <button type="submit">Create Product</button>
