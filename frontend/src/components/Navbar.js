@@ -3,8 +3,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
+import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 
-const Navbar = () => {
+const MyNavbar = () => {
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,54 +16,55 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        {/* Adjusting the Navbar.Brand to remove the duplicate text */}
+        <Navbar.Brand as={Link} to="/">
+          <img
+            src="/logo.png"
+            alt="MyApp Logo"
+            width="40"
+            height="40"
+            className="d-inline-block align-top"
+            style={{ marginRight: '10px' }}
+          />
           MyApp
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
             {token ? (
               <>
-                <li className="nav-item">
-                  <span className="nav-link">Hello, {user?.username}</span>
-                </li>
-                <li className="nav-item">
-                  <button className="btn btn-danger nav-link" onClick={handleLogout}>
+                <Nav.Item className="me-3">
+                  <Nav.Link as="span" className="text-light">
+                    Hello, {user?.username}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Button variant="outline-light" className="rounded-pill px-3" onClick={handleLogout}>
                     Logout
-                  </button>
-                </li>
+                  </Button>
+                </Nav.Item>
               </>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
+                <Nav.Item className="me-3">
+                  <Button variant="outline-light" as={Link} to="/login" className="rounded-pill px-3">
                     Login
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register">
+                  </Button>
+                </Nav.Item>
+                <Nav.Item>
+                  <Button variant="primary" as={Link} to="/register" className="rounded-pill px-3">
                     Register
-                  </Link>
-                </li>
+                  </Button>
+                </Nav.Item>
               </>
             )}
-          </ul>
-        </div>
-      </div>
-    </nav>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default MyNavbar;
