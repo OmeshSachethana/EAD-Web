@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { store } from '../app/store';
 
-const API_URL = 'http://localhost:5207/api/products';
-
+// Access the backend URL from the environment variables
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api/products`;
 
 // Fetch all products
 export const fetchProducts = async () => {
@@ -67,7 +67,7 @@ const deleteProduct = (id) => {
 };
 
 export default {
-  fetchProducts, // Fix: Use the correct function name here
+  fetchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
