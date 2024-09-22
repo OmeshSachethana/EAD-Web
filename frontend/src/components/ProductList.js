@@ -22,13 +22,13 @@ const ProductList = () => {
             <h2 className="text-center mb-4">Product List</h2>
             <div className="row">
                 {products.map((product) => (
-                    <div className="col-md-4 mb-4" key={product.id}>
-                        <div className="card">
+                    <div className="col-md-3 mb-4" key={product.id}> {/* Changed to col-md-3 */}
+                        <div className="card" style={{ height: '350px' }}> {/* Set a fixed height */}
                             <img 
                                 src={product.imageUrl} 
                                 alt={product.name} 
                                 className="card-img-top" 
-                                style={{ height: '200px', objectFit: 'cover' }} 
+                                style={{ height: '150px', objectFit: 'cover' }} // Adjusted height
                             />
                             <div className="card-body">
                                 <h5 className="card-title">{product.name}</h5>
