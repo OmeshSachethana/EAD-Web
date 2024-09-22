@@ -1,7 +1,6 @@
-// src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { loginUser, registerUser } from '../../api/authApi';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Updated import
 import { mapClaimsToUser } from '../../utils/authUtil';
 
 const initialState = {
@@ -11,14 +10,20 @@ const initialState = {
   error: null,
 };
 
+// Load user from token on initialization
+if (initialState.token) {
+  const decodedToken = jwtDecode(initialState.token);
+  initialState.user = mapClaimsToUser(decodedToken);
+}
+
 // Async thunk for login
 export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
-    const { token } = await loginUser(credentials);
-    const decodedToken = jwtDecode(token);
-    const user = mapClaimsToUser(decodedToken); // Use the utility function
-    localStorage.setItem('token', token);
-    return { user, token };
-  });
+  const { token } = await loginUser(credentials);
+  const decodedToken = jwtDecode(token);
+  const user = mapClaimsToUser(decodedToken);
+  localStorage.setItem('token', token);
+  return { user, token };
+});
 
 // Async thunk for registration
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
@@ -43,12 +48,11 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload.user; // This should now be populated correctly
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload.user; // Populated correctly
         state.token = action.payload.token;
         state.status = 'succeeded';
-    })
-    
+      })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message; // Handle error message
