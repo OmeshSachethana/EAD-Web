@@ -22,7 +22,7 @@ const MyNavbar = () => {
         <Navbar.Brand as={Link} to="/">
           <img
             src="/logo.png"
-            alt="Ecommerce Logo"
+            alt="logo"
             width="40"
             height="40"
             className="d-inline-block align-top"
