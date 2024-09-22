@@ -22,7 +22,8 @@ const ProductList = () => {
             <ul>
                 {products.map((product) => (
                     <li key={product.id}>
-                        {product.name} - {product.category} 
+                        <strong>{product.name}</strong> - {product.category} - {product.description} - Quantity: {product.quantity} - Price: ${product.price} - 
+                        <img src={product.imageUrl} alt={product.name} style={{ width: '50px', height: '50px' }} />
                         <button onClick={() => handleDelete(product.id)}>Delete</button>
                     </li>
                 ))}
