@@ -1,4 +1,3 @@
-// src/components/LoginForm.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/auth/authSlice';
@@ -10,9 +9,9 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { error, status } = useSelector((state) => state.auth);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    await dispatch(login({ email, password }));
   };
 
   return (
