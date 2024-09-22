@@ -12,10 +12,24 @@ const ProductForm = () => {
         price: '', 
         imageUrl: '' 
     });
+    const [imageFile, setImageFile] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProductData({ ...productData, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Here you could implement image upload logic
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProductData({ ...productData, imageUrl: reader.result }); // Use base64 image as imageUrl
+            };
+            reader.readAsDataURL(file);
+            setImageFile(file);
+        }
     };
 
     const handleSubmit = (e) => {
@@ -61,12 +75,13 @@ const ProductForm = () => {
                 onChange={handleChange}
             />
             <input
-                type="text"
-                name="imageUrl"
-                placeholder="Image URL"
-                value={productData.imageUrl}
-                onChange={handleChange}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
             />
+            {productData.imageUrl && (
+                <img src={productData.imageUrl} alt="Preview" style={{ width: '100px', height: '100px' }} />
+            )}
             <button type="submit">Create Product</button>
         </form>
     );
