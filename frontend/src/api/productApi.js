@@ -66,9 +66,12 @@ const deleteProduct = (id) => {
   });
 };
 
-export default {
+// Assign all functions to an object before exporting
+const productApi = {
   fetchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
 };
+
+export default productApi;
