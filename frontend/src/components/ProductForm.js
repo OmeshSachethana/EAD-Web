@@ -40,7 +40,7 @@ const ProductForm = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Create New Product</h2>
-            <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow">
+            <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow" style={{ maxWidth: '600px', margin: '0 auto' }}>
                 <div className="form-group mb-3">
                     <label>Product Name</label>
                     <input
