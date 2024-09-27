@@ -18,7 +18,6 @@ const MyNavbar = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        {/* Adjusting the Navbar.Brand to remove the duplicate text */}
         <Navbar.Brand as={Link} to="/">
           <img
             src="/logo.png"
@@ -32,6 +31,18 @@ const MyNavbar = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Item className="me-3">
+              <Nav.Link as={Link} to="/" className="text-light">
+                Home
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item className="me-3">
+              <Nav.Link as={Link} to="/products" className="text-light">
+                Products
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
           <Nav className="ms-auto">
             {token ? (
               <>
