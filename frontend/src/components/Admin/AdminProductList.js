@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ProductList = () => {
+const AdminProductList = () => {
     const dispatch = useDispatch();
     const { items: products, loading } = useSelector((state) => state.products);
 
@@ -61,4 +61,4 @@ const ProductList = () => {
     );
 };
 
-export default ProductList;
+export default AdminProductList;
