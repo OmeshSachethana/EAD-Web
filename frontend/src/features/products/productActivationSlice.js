@@ -68,8 +68,5 @@ const productActivationSlice = createSlice({
   },
 });
 
-// Export the async actions
-export const { } = productActivationSlice.actions;
-
 // Export the reducer
 export default productActivationSlice.reducer;
