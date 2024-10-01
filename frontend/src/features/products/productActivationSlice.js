@@ -12,7 +12,8 @@ export const activateProductAsync = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await activateProduct(id);
-      return response; // Return the response data for further use if needed
+      console.log(response);
+      return { id }; // Return only the product ID or any relevant data you need
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -25,7 +26,8 @@ export const deactivateProductAsync = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await deactivateProduct(id);
-      return response; // Return the response data for further use if needed
+      console.log(response);
+      return { id }; // Return only the product ID or any relevant data you need
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -42,8 +44,10 @@ const productActivationSlice = createSlice({
       .addCase(activateProductAsync.pending, (state) => {
         state.loading = true;
       })
-      .addCase(activateProductAsync.fulfilled, (state) => {
+      .addCase(activateProductAsync.fulfilled, (state, action) => {
         state.loading = false;
+        // Handle the activation logic if needed
+        // Example: state.products.find(product => product.id === action.payload.id).isActive = true;
       })
       .addCase(activateProductAsync.rejected, (state, action) => {
         state.loading = false;
@@ -52,8 +56,10 @@ const productActivationSlice = createSlice({
       .addCase(deactivateProductAsync.pending, (state) => {
         state.loading = true;
       })
-      .addCase(deactivateProductAsync.fulfilled, (state) => {
+      .addCase(deactivateProductAsync.fulfilled, (state, action) => {
         state.loading = false;
+        // Handle the deactivation logic if needed
+        // Example: state.products.find(product => product.id === action.payload.id).isActive = false;
       })
       .addCase(deactivateProductAsync.rejected, (state, action) => {
         state.loading = false;

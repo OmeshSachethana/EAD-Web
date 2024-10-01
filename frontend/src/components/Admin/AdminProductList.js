@@ -17,11 +17,17 @@ const AdminProductList = () => {
     };
 
     const handleActivate = (id) => {
-        dispatch(activateProductAsync(id));
+        dispatch(activateProductAsync(id))
+            .then(() => {
+                dispatch(fetchAllProducts()); // Fetch products again after activation
+            });
     };
 
     const handleDeactivate = (id) => {
-        dispatch(deactivateProductAsync(id));
+        dispatch(deactivateProductAsync(id))
+            .then(() => {
+                dispatch(fetchAllProducts()); // Fetch products again after deactivation
+            });
     };
 
     if (loading) return <div className="text-center">Loading...</div>;
