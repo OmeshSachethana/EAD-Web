@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts, deleteProduct } from '../../features/products/productSlice';
+import { fetchAllProducts } from '../../features/products/productSlice';
 import { activateProductAsync, deactivateProductAsync } from '../../features/products/productActivationSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,10 +11,6 @@ const AdminProductList = () => {
     useEffect(() => {
         dispatch(fetchAllProducts());
     }, [dispatch]);
-
-    const handleDelete = (id) => {
-        dispatch(deleteProduct(id));
-    };
 
     const handleActivate = (id) => {
         dispatch(activateProductAsync(id))
@@ -50,7 +46,7 @@ const AdminProductList = () => {
                     <div className="row">
                         {productsByCategory[category].map((product) => (
                             <div className="col-md-3 mb-4" key={product.id}>
-                                <div className="card" style={{ height: '350px' }}>
+                                <div className="card border-primary shadow-sm" style={{ height: '350px' }}>
                                     <img 
                                         src={product.imageUrl} 
                                         alt={product.name} 
@@ -65,13 +61,12 @@ const AdminProductList = () => {
                                             <strong>Price:</strong> ${product.price}<br />
                                             <strong>Status:</strong> {product.isActive ? 'Active' : 'Inactive'}
                                         </p>
-                                        <div>
+                                        <div className="d-flex justify-content-between">
                                             {product.isActive ? (
-                                                <button className="btn btn-danger me-2" onClick={() => handleDeactivate(product.id)}>Deactivate</button>
+                                                <button className="btn btn-warning" onClick={() => handleDeactivate(product.id)}>Deactivate</button>
                                             ) : (
-                                                <button className="btn btn-success me-2" onClick={() => handleActivate(product.id)}>Activate</button>
+                                                <button className="btn btn-info" onClick={() => handleActivate(product.id)}>Activate</button>
                                             )}
-                                            <button className="btn btn-danger" onClick={() => handleDelete(product.id)}>Delete</button>
                                         </div>
                                     </div>
                                 </div>
