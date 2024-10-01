@@ -12,7 +12,8 @@ import CreateOrderPage from "./pages/Orders/OrderPage";
 import CancelOrderPage from "./pages/Orders/CancelOrderPage";
 import DeliverOrderPage from "./pages/Orders/DeliverOrderPage";
 import ShipOrderPage from "./pages/Orders/ShipOrderPage";
-import OrderStatusPage from "./pages/Orders/OrderStatusPage"
+import OrderStatusPage from "./pages/Orders/OrderStatusPage";
+import AdminProductList from "./components/Admin/AdminProductList";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -91,7 +92,18 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin-products"
+          element={
+            <ProtectedRoute token={token}>
+              <AdminProductList />{" "}
+              {/* ProductPage is only accessible if logged in */}
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
+      
     </div>
   );
 };
