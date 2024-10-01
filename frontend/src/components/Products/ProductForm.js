@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createProduct } from '../features/products/productSlice';
+import { createProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductForm = () => {

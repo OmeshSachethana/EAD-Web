@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts, deleteProduct } from '../features/products/productSlice';
+import { fetchAllProducts, deleteProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductList = () => {

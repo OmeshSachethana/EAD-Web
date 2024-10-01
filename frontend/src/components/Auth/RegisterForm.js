@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../features/auth/authSlice';
+import { register } from '../../features/auth/authSlice';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 
 const RegisterForm = () => {
