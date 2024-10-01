@@ -37,11 +37,14 @@ const MyNavbar = () => {
                 Home
               </Nav.Link>
             </Nav.Item>
+            {/* Conditionally render Admin Products for Administrators */}
+            {user?.role.includes("Vendor") && (
             <Nav.Item className="me-3">
               <Nav.Link as={Link} to="/products" className="text-light">
                 Products
               </Nav.Link>
             </Nav.Item>
+            )}
             {/* Conditionally render Admin Products for Administrators */}
             {user?.role.includes("Administrator") && (
               <Nav.Item className="me-3">
