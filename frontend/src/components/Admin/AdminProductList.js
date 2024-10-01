@@ -74,7 +74,7 @@ const AdminProductList = () => {
                                         <p className="card-text">
                                             <strong>Description:</strong> {product.description}<br />
                                             <strong>Quantity:</strong> {product.quantity}<br />
-                                            <strong>Price:</strong> ${product.price}<br />
+                                            <strong>Price:</strong> Rs. {product.price}<br />
                                             <strong>Status:</strong> {product.isActive ? 'Active' : 'Inactive'}
                                         </p>
                                         <div className="d-flex justify-content-between">

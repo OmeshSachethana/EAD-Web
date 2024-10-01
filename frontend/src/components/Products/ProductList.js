@@ -47,7 +47,7 @@ const ProductList = () => {
                                         <p className="card-text">
                                             <strong>Description:</strong> {product.description}<br />
                                             <strong>Quantity:</strong> {product.quantity}<br />
-                                            <strong>Price:</strong> ${product.price}<br />
+                                            <strong>Price:</strong> Rs. {product.price}<br />
                                             <strong>Status:</strong> {product.isActive ? 'Active' : 'Inactive'}
                                         </p>
                                         <button className="btn btn-danger" onClick={() => handleDelete(product.id)}>Delete</button>
