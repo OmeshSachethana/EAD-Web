@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { activateProduct, deactivateProduct } from './productActivationApi';
+import { activateProduct, deactivateProduct } from '../../api/productActivationApi';
 
 const initialState = {
   loading: false,
