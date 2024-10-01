@@ -3,16 +3,17 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/Auth/LoginPage";
+import RegisterPage from "./pages/Auth/RegisterPage";
 import Navbar from "./components/Navbar"; // Ensure this import is correct
 import ProtectedRoute from "./components/ProtectedRoute"; // Ensure this import is correct
-import ProductPage from "./pages/ProductPage"; // Import the ProductPage
+import ProductPage from "./pages/Products/ProductPage"; // Import the ProductPage
 import CreateOrderPage from "./pages/Orders/OrderPage";
 import CancelOrderPage from "./pages/Orders/CancelOrderPage";
 import DeliverOrderPage from "./pages/Orders/DeliverOrderPage";
 import ShipOrderPage from "./pages/Orders/ShipOrderPage";
-import OrderStatusPage from "./pages/Orders/OrderStatusPage"
+import OrderStatusPage from "./pages/Orders/OrderStatusPage";
+import AdminProductList from "./components/Admin/AdminProductList";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -91,7 +92,18 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin-products"
+          element={
+            <ProtectedRoute token={token}>
+              <AdminProductList />{" "}
+              {/* ProductPage is only accessible if logged in */}
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
+      
     </div>
   );
 };

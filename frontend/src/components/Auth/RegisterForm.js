@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../features/auth/authSlice';
+import { register } from '../../features/auth/authSlice';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 
 const RegisterForm = () => {
@@ -8,7 +8,7 @@ const RegisterForm = () => {
     username: '',
     email: '',
     password: '',
-    role: 'user', // Default role
+    role: 'vendor', // Default role
   });
 
   const dispatch = useDispatch();
@@ -71,8 +71,9 @@ const RegisterForm = () => {
                 <Form.Group controlId="formRole" className="mb-4">
                   <Form.Label>Role</Form.Label>
                   <Form.Control as="select" name="role" value={formData.role} onChange={handleChange}>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="csr">CSR</option>
+                    <option value="Administrator">Adminstrator</option>
+                    <option value="Vendor">Vendor</option>
                     {/* Add more roles if needed */}
                   </Form.Control>
                 </Form.Group>

@@ -31,6 +31,26 @@ const MyNavbar = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Item className="me-3">
+              <Nav.Link as={Link} to="/" className="text-light">
+                Home
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item className="me-3">
+              <Nav.Link as={Link} to="/products" className="text-light">
+                Products
+              </Nav.Link>
+            </Nav.Item>
+            {/* Conditionally render Admin Products for Administrators */}
+            {user?.role.includes("Administrator") && (
+              <Nav.Item className="me-3">
+                <Nav.Link as={Link} to="/admin-products" className="text-light">
+                  Admin Products
+                </Nav.Link>
+              </Nav.Item>
+            )}
+          </Nav>
           <Nav className="ms-auto">
             {token ? (
               <>
