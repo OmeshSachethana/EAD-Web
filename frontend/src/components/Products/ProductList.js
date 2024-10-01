@@ -17,33 +17,46 @@ const ProductList = () => {
 
     if (loading) return <div className="text-center">Loading...</div>;
 
+    // Group products by category
+    const productsByCategory = products.reduce((acc, product) => {
+        if (!acc[product.category]) {
+            acc[product.category] = [];
+        }
+        acc[product.category].push(product);
+        return acc;
+    }, {});
+
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Product List</h2>
-            <div className="row">
-                {products.map((product) => (
-                    <div className="col-md-3 mb-4" key={product.id}> {/* Changed to col-md-3 */}
-                        <div className="card" style={{ height: '350px' }}> {/* Set a fixed height */}
-                            <img 
-                                src={product.imageUrl} 
-                                alt={product.name} 
-                                className="card-img-top" 
-                                style={{ height: '150px', objectFit: 'cover' }} // Adjusted height
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title">{product.name}</h5>
-                                <p className="card-text">
-                                    <strong>Category:</strong> {product.category}<br />
-                                    <strong>Description:</strong> {product.description}<br />
-                                    <strong>Quantity:</strong> {product.quantity}<br />
-                                    <strong>Price:</strong> ${product.price}
-                                </p>
-                                <button className="btn btn-danger" onClick={() => handleDelete(product.id)}>Delete</button>
+            {Object.keys(productsByCategory).map((category) => (
+                <div key={category} className="mb-5">
+                    <h3 className="mb-3">{category}</h3> {/* Category title */}
+                    <div className="row">
+                        {productsByCategory[category].map((product) => (
+                            <div className="col-md-3 mb-4" key={product.id}>
+                                <div className="card" style={{ height: '350px' }}>
+                                    <img 
+                                        src={product.imageUrl} 
+                                        alt={product.name} 
+                                        className="card-img-top" 
+                                        style={{ height: '150px', objectFit: 'cover' }} 
+                                    />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{product.name}</h5>
+                                        <p className="card-text">
+                                            <strong>Description:</strong> {product.description}<br />
+                                            <strong>Quantity:</strong> {product.quantity}<br />
+                                            <strong>Price:</strong> ${product.price}
+                                        </p>
+                                        <button className="btn btn-danger" onClick={() => handleDelete(product.id)}>Delete</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
+            ))}
         </div>
     );
 };
