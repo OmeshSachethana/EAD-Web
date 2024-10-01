@@ -42,6 +42,11 @@ const MyNavbar = () => {
                 Products
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item className="me-3">
+              <Nav.Link as={Link} to="/admin-products" className="text-light">
+                Admin Products
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
           <Nav className="ms-auto">
             {token ? (
