@@ -54,14 +54,25 @@ const ProductForm = () => {
                 </div>
                 <div className="form-group mb-3">
                     <label>Category</label>
-                    <input
-                        type="text"
+                    <select
                         name="category"
                         className="form-control"
-                        placeholder="Enter category"
                         value={productData.category}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="">Select category</option>
+                        <option value="Biscuits">Biscuits</option>
+                        <option value="Canned Foods">Canned Foods</option>
+                        <option value="Snacks">Snacks</option>
+                        <option value="Dairy Products">Dairy Products</option>
+                        <option value="Frozen Foods">Frozen Foods</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Condiments">Condiments</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Fresh Produce">Fresh Produce</option>
+                        <option value="Bakery">Bakery</option>
+                        <option value="Stationery">Stationery</option>
+                    </select>
                 </div>
                 <div className="form-group mb-3">
                     <label>Description</label>
