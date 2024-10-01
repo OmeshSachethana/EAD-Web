@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts } from '../../features/products/productSlice';
 import { activateProductAsync, deactivateProductAsync } from '../../features/products/productActivationSlice';
@@ -7,6 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const AdminProductList = () => {
     const dispatch = useDispatch();
     const { items: products, loading } = useSelector((state) => state.products);
+    
+    // State to manage the filter
+    const [filter, setFilter] = useState('all');
 
     useEffect(() => {
         dispatch(fetchAllProducts());
@@ -28,8 +31,15 @@ const AdminProductList = () => {
 
     if (loading) return <div className="text-center">Loading...</div>;
 
+    // Filter products based on the selected filter
+    const filteredProducts = products.filter((product) => {
+        if (filter === 'active') return product.isActive;
+        if (filter === 'inactive') return !product.isActive;
+        return true; // All products
+    });
+
     // Group products by category
-    const productsByCategory = products.reduce((acc, product) => {
+    const productsByCategory = filteredProducts.reduce((acc, product) => {
         if (!acc[product.category]) {
             acc[product.category] = [];
         }
@@ -40,6 +50,12 @@ const AdminProductList = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Product List</h2>
+            {/* Filter Buttons */}
+            <div className="text-center mb-4">
+                <button className="btn btn-primary me-2" onClick={() => setFilter('all')}>Show All</button>
+                <button className="btn btn-success me-2" onClick={() => setFilter('active')}>Show Active</button>
+                <button className="btn btn-secondary" onClick={() => setFilter('inactive')}>Show Inactive</button>
+            </div>
             {Object.keys(productsByCategory).map((category) => (
                 <div key={category} className="mb-5">
                     <h3 className="mb-3">{category}</h3>
