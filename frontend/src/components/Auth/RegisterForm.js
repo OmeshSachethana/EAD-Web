@@ -8,7 +8,7 @@ const RegisterForm = () => {
     username: '',
     email: '',
     password: '',
-    role: 'vendor', // Default role
+    role: '', // Default role
   });
 
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     dispatch(register(formData));
   };
 
@@ -71,7 +72,8 @@ const RegisterForm = () => {
                 <Form.Group controlId="formRole" className="mb-4">
                   <Form.Label>Role</Form.Label>
                   <Form.Control as="select" name="role" value={formData.role} onChange={handleChange}>
-                    <option value="csr">CSR</option>
+                    <option value="">Select a role</option>  {/* Prompt user to select */}
+                    <option value="CSR">CSR</option>
                     <option value="Administrator">Adminstrator</option>
                     <option value="Vendor">Vendor</option>
                     {/* Add more roles if needed */}
