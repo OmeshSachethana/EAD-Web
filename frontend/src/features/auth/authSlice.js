@@ -53,9 +53,10 @@ export const fetchAllCustomers = createAsyncThunk('auth/fetchCustomers', async (
 // Async thunk to update customer's `IsActive` status
 export const updateCustomerActiveStatus = createAsyncThunk(
   'auth/updateCustomerStatus',
-  async ({ id, isActive }, thunkAPI) => {
+  async ({ id, isActive, username, email, role, password }, thunkAPI) => {
+    console.log('Updating customer with ID:', id, 'to IsActive:', isActive);
     try {
-      const updatedCustomer = await updateCustomerStatus(id, isActive);
+      const updatedCustomer = await updateCustomerStatus(id, isActive, username, email, role, password);
       return updatedCustomer;
     } catch (error) {
       const message = error.response ? error.response.data : 'Failed to update customer status.';
@@ -63,6 +64,9 @@ export const updateCustomerActiveStatus = createAsyncThunk(
     }
   }
 );
+
+
+
 
 const authSlice = createSlice({
   name: 'auth',
