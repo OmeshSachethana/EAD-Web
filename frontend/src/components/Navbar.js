@@ -53,6 +53,14 @@ const MyNavbar = () => {
                 </Nav.Link>
               </Nav.Item>
             )}
+            {/* Conditionally render Admin Products for Administrators */}
+            {user?.role.includes("Administrator") && (
+              <Nav.Item className="me-3">
+                <Nav.Link as={Link} to="/customers" className="text-light">
+                  Customer
+                </Nav.Link>
+              </Nav.Item>
+            )}
           </Nav>
           <Nav className="ms-auto">
             {token ? (
