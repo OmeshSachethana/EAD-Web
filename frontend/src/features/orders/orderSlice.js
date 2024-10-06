@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  getAllOrders as apiGetAllOrders,
   createOrder as apiCreateOrder,
   cancelOrder as apiCancelOrder,
   markOrderAsDelivered as apiDeliverOrder,
@@ -8,6 +9,21 @@ import {
 } from "../../api/orderAPI";
 
 // ========== Thunks ==========
+
+// Get All Orders Thunk
+export const getAllOrders = createAsyncThunk(
+  "orders/getAllOrders",
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.token; // Extract the auth token from the state
+    try {
+      return await apiGetAllOrders(token); // Call the API to fetch all orders
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch all orders."
+      );
+    }
+  }
+);
 
 // Create Order Thunk
 export const createOrder = createAsyncThunk(
@@ -128,6 +144,9 @@ const orderSlice = createSlice({
     clearLoading: (state) => {
       state.loading = false;
     },
+    clearGetAllOrdersError: (state) => {
+      state.getAllError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -142,6 +161,16 @@ const orderSlice = createSlice({
         state.loading = false;
         state.createError = action.payload || "Failed to create order.";
         state.createMessage = null;
+      })
+      // Get All Orders Cases
+      .addCase(getAllOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload.orders; // Store the fetched orders
+        state.getAllError = null;
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.getAllError = action.payload || "Failed to fetch all orders.";
       })
       // Ship Order Cases
       .addCase(markOrderAsShipped.fulfilled, (state, action) => {
@@ -220,6 +249,7 @@ export const {
   clearCancelMessage,
   clearCreateOrderMessage,
   clearLoading,
+  clearGetAllOrdersError,
 } = orderSlice.actions;
 
 // Export the reducer
