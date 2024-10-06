@@ -36,10 +36,40 @@ const ProductForm = () => {
         }
     };
 
+    const validateForm = () => {
+        const { name, category, description, quantity, price } = productData;
+
+        // Check for required fields
+        if (!name) {
+            toast.error('Product name is required!');
+            return false;
+        }
+        if (!category) {
+            toast.error('Category is required!');
+            return false;
+        }
+        if (!description) {
+            toast.error('Description is required!');
+            return false;
+        }
+        if (!quantity || quantity <= 0) {
+            toast.error('Quantity must be a positive number!');
+            return false;
+        }
+        if (!price || price <= 0) {
+            toast.error('Price must be a positive number!');
+            return false;
+        }
+
+        return true; // Form is valid
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createProduct(productData));
-        toast.success('Product created successfully!'); // Show toast notification
+        if (validateForm()) {
+            dispatch(createProduct(productData));
+            toast.success('Product created successfully!'); // Show toast notification
+        }
     };
 
     const handleViewProducts = () => {
