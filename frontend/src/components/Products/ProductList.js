@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct, updateProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Form } from 'react-bootstrap'; // Bootstrap Modal
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast notifications
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const ProductList = () => {
 
     const handleDelete = (id) => {
         dispatch(deleteProduct(id));
+        toast.success('Product deleted successfully!'); // Success message for delete
     };
 
     const handleEditClick = (product) => {
@@ -56,6 +59,7 @@ const ProductList = () => {
             const updatedData = { ...productData, vendorId: selectedProduct.vendorId }; // Include vendorId if needed
             dispatch(updateProduct({ id: selectedProduct.id, productData: updatedData }));
             setShowModal(false);
+            toast.success('Product updated successfully!'); // Success message for update
         }
     };
 
@@ -232,7 +236,7 @@ const ProductList = () => {
                             <Form.Control 
                                 type="file" 
                                 accept="image/*" 
-                                onChange={handleFileChange}
+                                onChange={handleFileChange} 
                             />
                         </Form.Group>
                         {productData.imageUrl && (
@@ -247,21 +251,22 @@ const ProductList = () => {
                             <Form.Check 
                                 type="checkbox" 
                                 label="Active" 
-                                checked={productData.isActive} 
+                                checked={productData.isActive}
                                 onChange={(e) => setProductData({ ...productData, isActive: e.target.checked })}
+                                disabled
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleModalClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdateProduct}>
-                        Save Changes
-                    </Button>
+                    <Button variant="secondary" onClick={handleModalClose}>Close</Button>
+                    <Button variant="primary" onClick={handleUpdateProduct}>Save Changes</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Toast Container for Notifications */}
+            <ToastContainer />
+
         </div>
     );
 };
