@@ -128,9 +128,9 @@ const ProductForm = () => {
                 )}
                 <button type="submit" className="btn btn-primary btn-block">Create Product</button> <br/>
                 <button className="btn btn-secondary btn-block mt-3" onClick={handleViewProducts}>View Products</button> {/* New button to navigate */}
-            </form>
+            </form><br/><br/>
            
-        </div>
+        </div> 
     );
 };
 
