@@ -20,6 +20,7 @@ const ProductList = () => {
         isActive: false,
         imageFile: null // State for the uploaded image file
     });
+    const [searchTerm, setSearchTerm] = useState(''); // New state for search term
 
     useEffect(() => {
         dispatch(fetchAllProducts());
@@ -81,14 +82,36 @@ const ProductList = () => {
         return acc;
     }, {});
 
+    // Filter products based on the search term
+    const filteredProducts = Object.keys(productsByCategory).reduce((acc, category) => {
+        const filteredProductsInCategory = productsByCategory[category].filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        if (filteredProductsInCategory.length) {
+            acc[category] = filteredProductsInCategory;
+        }
+        return acc;
+    }, {});
+
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Product List</h2>
-            {Object.keys(productsByCategory).map((category) => (
+            
+            {/* Search Input */}
+            <div className="mb-4">
+                <Form.Control 
+                    type="text" 
+                    placeholder="Search products..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            {Object.keys(filteredProducts).map((category) => (
                 <div key={category} className="mb-5">
                     <h3 className="mb-3">{category}</h3> {/* Category title */}
                     <div className="row">
-                        {productsByCategory[category].map((product) => (
+                        {filteredProducts[category].map((product) => (
                             <div className="col-md-3 mb-4" key={product.id}>
                                 <div className="card" style={{ height: '350px' }}>
                                     <img 
