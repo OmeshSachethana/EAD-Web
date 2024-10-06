@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createProduct } from '../../features/products/productSlice';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Create a navigate function
     const [productData, setProductData] = useState({ 
         name: '', 
         category: '', 
@@ -35,6 +37,10 @@ const ProductForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(createProduct(productData));
+    };
+
+    const handleViewProducts = () => {
+        navigate('/view-products'); // Navigate to 'view-products'
     };
 
     return (
@@ -120,8 +126,10 @@ const ProductForm = () => {
                         <img src={productData.imageUrl} alt="Preview" className="img-thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </div>
                 )}
-                <button type="submit" className="btn btn-primary btn-block">Create Product</button>
+                <button type="submit" className="btn btn-primary btn-block">Create Product</button> <br/>
+                <button className="btn btn-secondary btn-block mt-3" onClick={handleViewProducts}>View Products</button> {/* New button to navigate */}
             </form>
+           
         </div>
     );
 };
