@@ -44,7 +44,7 @@ const CustomersTable = () => {
                             <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>IsActive</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
