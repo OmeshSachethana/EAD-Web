@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCustomers, updateCustomerActiveStatus } from '../../features/auth/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CustomersTable = () => {
     const dispatch = useDispatch();
@@ -11,14 +13,22 @@ const CustomersTable = () => {
     }, [dispatch]);
 
     const handleToggleStatus = (customer) => {
+        const newStatus = !customer.isActive;
         dispatch(updateCustomerActiveStatus({ 
             id: customer.id, 
-            isActive: !customer.isActive, 
+            isActive: newStatus, 
             username: customer.username, 
             email: customer.email, 
             role: customer.role, 
             password: customer.password // You may want to handle password securely
         }));
+
+        // Show a toast notification
+        if (newStatus) {
+            toast.success(`${customer.username} has been activated.`);
+        } else {
+            toast.warning(`${customer.username} has been deactivated.`);
+        }
     };
 
     return (
@@ -34,7 +44,7 @@ const CustomersTable = () => {
                             <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>IsActive</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -63,6 +73,9 @@ const CustomersTable = () => {
             ) : (
                 <div className="alert alert-warning">No customers found.</div>
             )}
+
+            {/* Toast Container */}
+            <ToastContainer />
         </div>
     );
 };

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct, updateProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Form } from 'react-bootstrap'; // Bootstrap Modal
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast notifications
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -20,6 +22,8 @@ const ProductList = () => {
         isActive: false,
         imageFile: null // State for the uploaded image file
     });
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
 
     useEffect(() => {
         dispatch(fetchAllProducts());
@@ -27,6 +31,7 @@ const ProductList = () => {
 
     const handleDelete = (id) => {
         dispatch(deleteProduct(id));
+        toast.success('Product deleted successfully!'); // Success message for delete
     };
 
     const handleEditClick = (product) => {
@@ -49,11 +54,42 @@ const ProductList = () => {
         setSelectedProduct(null);
     };
 
+    // Validation function
+    const validateProductData = () => {
+        const { name, category, description, quantity, price } = productData;
+
+        // Check for required fields
+        if (!name) {
+            toast.error('Product name is required!');
+            return false;
+        }
+        if (!category) {
+            toast.error('Category is required!');
+            return false;
+        }
+        if (!description) {
+            toast.error('Description is required!');
+            return false;
+        }
+        if (!quantity || quantity <= 0) {
+            toast.error('Quantity must be a positive number!');
+            return false;
+        }
+        if (!price || price <= 0) {
+            toast.error('Price must be a positive number!');
+            return false;
+        }
+
+        return true; // Form is valid
+    };
+
     const handleUpdateProduct = () => {
         if (selectedProduct) {
+            if (!validateProductData()) return; // Validate product data
             const updatedData = { ...productData, vendorId: selectedProduct.vendorId }; // Include vendorId if needed
             dispatch(updateProduct({ id: selectedProduct.id, productData: updatedData }));
             setShowModal(false);
+            toast.success('Product updated successfully!'); // Success message for update
         }
     };
 
@@ -81,14 +117,59 @@ const ProductList = () => {
         return acc;
     }, {});
 
+    // Filter products based on the search term and selected category
+    const filteredProducts = Object.keys(productsByCategory).reduce((acc, category) => {
+        const filteredProductsInCategory = productsByCategory[category].filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            (selectedCategory ? product.category === selectedCategory : true)
+        );
+        if (filteredProductsInCategory.length) {
+            acc[category] = filteredProductsInCategory;
+        }
+        return acc;
+    }, {});
+
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Product List</h2>
-            {Object.keys(productsByCategory).map((category) => (
+            
+            {/* Search Input */}
+            <div className="mb-4">
+                <Form.Control 
+                    type="text" 
+                    placeholder="Search products..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            {/* Category Filter */}
+            <div className="mb-4">
+                <Form.Control 
+                    as="select"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                    <option value="">All Categories</option>
+                    <option value="Biscuits">Biscuits</option>
+                    <option value="Canned Foods">Canned Foods</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Dairy Products">Dairy Products</option>
+                    <option value="Frozen Foods">Frozen Foods</option>
+                    <option value="Beverages">Beverages</option>
+                    <option value="Condiments">Condiments</option>
+                    <option value="Grains">Grains</option>
+                    <option value="Fresh Produce">Fresh Produce</option>
+                    <option value="Bakery">Bakery</option>
+                    <option value="Stationery">Stationery</option>
+                </Form.Control>
+            </div>
+
+            {Object.keys(filteredProducts).map((category) => (
                 <div key={category} className="mb-5">
                     <h3 className="mb-3">{category}</h3> {/* Category title */}
                     <div className="row">
-                        {productsByCategory[category].map((product) => (
+                        {filteredProducts[category].map((product) => (
                             <div className="col-md-3 mb-4" key={product.id}>
                                 <div className="card" style={{ height: '350px' }}>
                                     <img 
@@ -159,7 +240,8 @@ const ProductList = () => {
                         <Form.Group className="mb-3">
                             <Form.Label>Description</Form.Label>
                             <Form.Control 
-                                type="text" 
+                                as="textarea" 
+                                rows={3}
                                 value={productData.description}
                                 onChange={(e) => setProductData({ ...productData, description: e.target.value })}
                             />
@@ -181,41 +263,40 @@ const ProductList = () => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Image URL</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={productData.imageUrl}
-                                onChange={(e) => setProductData({ ...productData, imageUrl: e.target.value })}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Upload Image</Form.Label>
+                            <Form.Label>Image</Form.Label>
                             <Form.Control 
                                 type="file" 
                                 accept="image/*" 
-                                onChange={handleFileChange}
+                                onChange={handleFileChange} 
                             />
                         </Form.Group>
+                        {productData.imageUrl && (
+                            <img 
+                                src={productData.imageUrl} 
+                                alt="Preview" 
+                                className="img-fluid mb-3" 
+                                style={{ height: '100px', objectFit: 'cover' }} 
+                            />
+                        )}
                         <Form.Group className="mb-3">
                             <Form.Check 
                                 type="checkbox" 
                                 label="Active" 
                                 checked={productData.isActive}
                                 onChange={(e) => setProductData({ ...productData, isActive: e.target.checked })}
-                                disabled // Optionally disable if you don't want to allow changes here
+                                disabled
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleModalClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdateProduct}>
-                        Save Changes
-                    </Button>
+                    <Button variant="secondary" onClick={handleModalClose}>Close</Button>
+                    <Button variant="primary" onClick={handleUpdateProduct}>Save Changes</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Toast Container for Notifications */}
+            <ToastContainer />
         </div>
     );
 };
