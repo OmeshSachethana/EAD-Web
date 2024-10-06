@@ -17,7 +17,8 @@ const ProductList = () => {
         quantity: '',
         price: '',
         imageUrl: '',
-        isActive: false
+        isActive: false,
+        imageFile: null // State for the uploaded image file
     });
 
     useEffect(() => {
@@ -32,12 +33,13 @@ const ProductList = () => {
         setSelectedProduct(product);
         setProductData({
             name: product.name,
-            category: product.category, // Include category
+            category: product.category,
             description: product.description,
             quantity: product.quantity,
             price: product.price,
-            imageUrl: product.imageUrl, // Include imageUrl
-            isActive: product.isActive
+            imageUrl: product.imageUrl,
+            isActive: product.isActive,
+            imageFile: null // Reset the image file on edit
         });
         setShowModal(true); // Open modal for editing product
     };
@@ -52,6 +54,19 @@ const ProductList = () => {
             const updatedData = { ...productData, vendorId: selectedProduct.vendorId }; // Include vendorId if needed
             dispatch(updateProduct({ id: selectedProduct.id, productData: updatedData }));
             setShowModal(false);
+        }
+    };
+
+    // Handle file selection for image upload
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProductData({ ...productData, imageFile: file });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProductData((prevData) => ({ ...prevData, imageUrl: reader.result }));
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -171,6 +186,14 @@ const ProductList = () => {
                                 type="text" 
                                 value={productData.imageUrl}
                                 onChange={(e) => setProductData({ ...productData, imageUrl: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Upload Image</Form.Label>
+                            <Form.Control 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={handleFileChange}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
