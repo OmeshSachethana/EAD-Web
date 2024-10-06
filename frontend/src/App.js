@@ -16,6 +16,7 @@ import OrderStatusPage from "./pages/Orders/OrderStatusPage";
 import AdminProductList from "./components/Admin/AdminProductList";
 import CustomersTable from "./components/Customer/CustomersTable";
 import ViewProductsPage from "./pages/Products/ViewProductsPage";
+import AdminOrderListing from "./pages/Orders/AdminOrderListing";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -99,6 +100,15 @@ const App = () => {
           element={
             <ProtectedRoute token={token}>
               <AdminProductList />{" "}
+              {/* ProductPage is only accessible if logged in */}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-orders"
+          element={
+            <ProtectedRoute token={token}>
+              <AdminOrderListing />{" "}
               {/* ProductPage is only accessible if logged in */}
             </ProtectedRoute>
           }

@@ -32,6 +32,11 @@ const apiCall = async (method, url, data = null, token) => {
 
 // ========== OrdersController API Calls ==========
 
+// Get all orders
+export const getAllOrders = async (token) => {
+  return apiCall("GET", ORDERS_API_URL, null, token);
+};
+
 // Create a new order
 export const createOrder = async (orderData, token) => {
   return apiCall("POST", ORDERS_API_URL, orderData, token);
