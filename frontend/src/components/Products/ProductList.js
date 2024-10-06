@@ -54,8 +54,38 @@ const ProductList = () => {
         setSelectedProduct(null);
     };
 
+    // Validation function
+    const validateProductData = () => {
+        const { name, category, description, quantity, price } = productData;
+
+        // Check for required fields
+        if (!name) {
+            toast.error('Product name is required!');
+            return false;
+        }
+        if (!category) {
+            toast.error('Category is required!');
+            return false;
+        }
+        if (!description) {
+            toast.error('Description is required!');
+            return false;
+        }
+        if (!quantity || quantity <= 0) {
+            toast.error('Quantity must be a positive number!');
+            return false;
+        }
+        if (!price || price <= 0) {
+            toast.error('Price must be a positive number!');
+            return false;
+        }
+
+        return true; // Form is valid
+    };
+
     const handleUpdateProduct = () => {
         if (selectedProduct) {
+            if (!validateProductData()) return; // Validate product data
             const updatedData = { ...productData, vendorId: selectedProduct.vendorId }; // Include vendorId if needed
             dispatch(updateProduct({ id: selectedProduct.id, productData: updatedData }));
             setShowModal(false);
@@ -210,7 +240,8 @@ const ProductList = () => {
                         <Form.Group className="mb-3">
                             <Form.Label>Description</Form.Label>
                             <Form.Control 
-                                type="text" 
+                                as="textarea" 
+                                rows={3}
                                 value={productData.description}
                                 onChange={(e) => setProductData({ ...productData, description: e.target.value })}
                             />
@@ -266,7 +297,6 @@ const ProductList = () => {
 
             {/* Toast Container for Notifications */}
             <ToastContainer />
-
         </div>
     );
 };
