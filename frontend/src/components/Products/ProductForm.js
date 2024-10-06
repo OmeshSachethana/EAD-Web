@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createProduct } from '../../features/products/productSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { ToastContainer, toast } from 'react-toastify'; // Import Toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toast
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductForm = () => {
@@ -37,6 +39,7 @@ const ProductForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(createProduct(productData));
+        toast.success('Product created successfully!'); // Show toast notification
     };
 
     const handleViewProducts = () => {
@@ -46,6 +49,7 @@ const ProductForm = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Create New Product</h2>
+            <ToastContainer position="top-center" autoClose={3000} /> {/* Toast Container */}
             <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow" style={{ maxWidth: '600px', margin: '0 auto' }}>
                 <div className="form-group mb-3">
                     <label>Product Name</label>
@@ -126,11 +130,10 @@ const ProductForm = () => {
                         <img src={productData.imageUrl} alt="Preview" className="img-thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </div>
                 )}
-                <button type="submit" className="btn btn-primary btn-block">Create Product</button> <br/>
-                <button className="btn btn-secondary btn-block mt-3" onClick={handleViewProducts}>View Products</button> {/* New button to navigate */}
-            </form><br/><br/>
-           
-        </div> 
+                <button type="submit" className="btn btn-primary btn-block">Create Product</button> <br />
+                <button className="btn btn-secondary btn-block mt-3" onClick={handleViewProducts}>View Products</button>
+            </form><br /><br />
+        </div>
     );
 };
 
