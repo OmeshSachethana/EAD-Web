@@ -6,24 +6,36 @@ import { format } from "date-fns";
 const AdminOrderListing = () => {
   const dispatch = useDispatch();
   const { orders, loading, error } = useSelector((state) => state.orders);
-  const [selectedOrder, setSelectedOrder] = useState(null); // To handle viewing order details
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showError, setShowError] = useState(false);
 
   // Fetch all orders when component mounts
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (error) {
+      setShowError(true); // Show error message
+      const timer = setTimeout(() => {
+        setShowError(false); // Hide error message after 4 seconds
+      }, 4000);
+
+      return () => clearTimeout(timer); // Cleanup timeout on unmount or error change
+    }
+  }, [error]);
+
   // Handle cancel order
   const handleCancelOrder = async (orderId) => {
     if (window.confirm("Are you sure you want to cancel this order?")) {
-      try {
-        await dispatch(
-          cancelOrder({ id: orderId, note: "Cancelled by Admin" })
-        );
-        // Refresh orders after successful cancellation
+      const resultAction = await dispatch(
+        cancelOrder({ id: orderId, note: "Cancelled by Admin" })
+      );
+
+      // Check if the cancelOrder was fulfilled
+      if (cancelOrder.fulfilled.match(resultAction)) {
+        // Refetch all orders after successful cancellation
         dispatch(getAllOrders());
-      } catch (error) {
-        console.error("Failed to cancel order:", error);
       }
     }
   };
@@ -83,16 +95,9 @@ const AdminOrderListing = () => {
   if (loading) {
     return (
       <div className="text-center my-5">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <div className="spinner-border" role="status" />
       </div>
     );
-  }
-
-  // Render error message if there's an error
-  if (error) {
-    return <div className="alert alert-danger text-center my-5">{error}</div>;
   }
 
   // Render no orders message if no orders found
@@ -112,6 +117,11 @@ const AdminOrderListing = () => {
   return (
     <div className="container my-5">
       <h1 className="mb-4">Admin - All Orders</h1>
+
+      {/* Display error message if there's an error */}
+      {showError && error && (
+        <div className="alert alert-danger text-center my-3">{error}</div>
+      )}
 
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
