@@ -20,7 +20,8 @@ const ProductList = () => {
         isActive: false,
         imageFile: null // State for the uploaded image file
     });
-    const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
 
     useEffect(() => {
         dispatch(fetchAllProducts());
@@ -82,10 +83,11 @@ const ProductList = () => {
         return acc;
     }, {});
 
-    // Filter products based on the search term
+    // Filter products based on the search term and selected category
     const filteredProducts = Object.keys(productsByCategory).reduce((acc, category) => {
         const filteredProductsInCategory = productsByCategory[category].filter(product =>
-            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            (selectedCategory ? product.category === selectedCategory : true)
         );
         if (filteredProductsInCategory.length) {
             acc[category] = filteredProductsInCategory;
@@ -105,6 +107,28 @@ const ProductList = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
+            </div>
+
+            {/* Category Filter */}
+            <div className="mb-4">
+                <Form.Control 
+                    as="select"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                    <option value="">All Categories</option>
+                    <option value="Biscuits">Biscuits</option>
+                    <option value="Canned Foods">Canned Foods</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Dairy Products">Dairy Products</option>
+                    <option value="Frozen Foods">Frozen Foods</option>
+                    <option value="Beverages">Beverages</option>
+                    <option value="Condiments">Condiments</option>
+                    <option value="Grains">Grains</option>
+                    <option value="Fresh Produce">Fresh Produce</option>
+                    <option value="Bakery">Bakery</option>
+                    <option value="Stationery">Stationery</option>
+                </Form.Control>
             </div>
 
             {Object.keys(filteredProducts).map((category) => (
@@ -204,35 +228,34 @@ const ProductList = () => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Image URL</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={productData.imageUrl}
-                                onChange={(e) => setProductData({ ...productData, imageUrl: e.target.value })}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Upload Image</Form.Label>
+                            <Form.Label>Image</Form.Label>
                             <Form.Control 
                                 type="file" 
                                 accept="image/*" 
                                 onChange={handleFileChange}
                             />
                         </Form.Group>
+                        {productData.imageUrl && (
+                            <img 
+                                src={productData.imageUrl} 
+                                alt="Preview" 
+                                className="img-fluid mb-3" 
+                                style={{ height: '100px', objectFit: 'cover' }} 
+                            />
+                        )}
                         <Form.Group className="mb-3">
                             <Form.Check 
                                 type="checkbox" 
                                 label="Active" 
-                                checked={productData.isActive}
+                                checked={productData.isActive} 
                                 onChange={(e) => setProductData({ ...productData, isActive: e.target.checked })}
-                                disabled // Optionally disable if you don't want to allow changes here
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleModalClose}>
-                        Cancel
+                        Close
                     </Button>
                     <Button variant="primary" onClick={handleUpdateProduct}>
                         Save Changes
