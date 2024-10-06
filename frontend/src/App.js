@@ -15,6 +15,7 @@ import ShipOrderPage from "./pages/Orders/ShipOrderPage";
 import OrderStatusPage from "./pages/Orders/OrderStatusPage";
 import AdminProductList from "./components/Admin/AdminProductList";
 import CustomersTable from "./components/Customer/CustomersTable";
+import ViewProductsPage from "./pages/Products/ViewProductsPage";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -107,6 +108,15 @@ const App = () => {
           element={
             <ProtectedRoute token={token}>
               <CustomersTable />{" "}
+              {/* ProductPage is only accessible if logged in */}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/view-products"
+          element={
+            <ProtectedRoute token={token}>
+              <ViewProductsPage />{" "}
               {/* ProductPage is only accessible if logged in */}
             </ProtectedRoute>
           }
