@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../features/auth/authSlice';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +25,15 @@ const RegisterForm = () => {
     console.log(formData);
     dispatch(register(formData));
   };
+
+  // Show toast notifications based on the status and error state
+  useEffect(() => {
+    if (status === 'succeeded') {
+      //toast.success('Registration successful!');
+    } else if (error) {
+      toast.error(`Registration failed: ${error}`);
+    }
+  }, [status, error]);
 
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
@@ -72,9 +83,9 @@ const RegisterForm = () => {
                 <Form.Group controlId="formRole" className="mb-4">
                   <Form.Label>Role</Form.Label>
                   <Form.Control as="select" name="role" value={formData.role} onChange={handleChange}>
-                    <option value="">Select a role</option>  {/* Prompt user to select */}
+                    <option value="">Select a role</option>
                     <option value="CSR">CSR</option>
-                    <option value="Administrator">Adminstrator</option>
+                    <option value="Administrator">Administrator</option>
                     <option value="Vendor">Vendor</option>
                     {/* Add more roles if needed */}
                   </Form.Control>
@@ -90,6 +101,8 @@ const RegisterForm = () => {
           </Card>
         </Col>
       </Row>
+      {/* Toast container to display notifications */}
+      <ToastContainer />
     </Container>
   );
 };
