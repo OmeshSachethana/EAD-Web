@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../features/auth/authSlice';
 import { Form, Button, Alert, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +16,14 @@ const LoginForm = () => {
     await dispatch(login({ email, password }));
   };
 
+  useEffect(() => {
+    if (status === 'succeeded') {
+      toast.success('Login successful!');
+    } else if (error) {
+      toast.error(`Login failed: ${error}`);
+    }
+  }, [status, error]);
+
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <Row className="w-100 justify-content-center">
@@ -21,7 +31,7 @@ const LoginForm = () => {
           <Card className="shadow-sm">
             <Card.Body>
               <h3 className="text-center mb-4">Login</h3>
-              {error && <Alert variant="danger">{error}</Alert>}
+              {/* {error && <Alert variant="danger">{error}</Alert>} */}
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formEmail" className="mb-3">
                   <Form.Label>Email</Form.Label>
@@ -55,6 +65,7 @@ const LoginForm = () => {
           </Card>
         </Col>
       </Row>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
     </Container>
   );
 };
