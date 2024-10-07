@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (status === 'succeeded') {
-      toast.success('Login successful!');
+      //toast.success('Login successful!');
     } else if (error) {
       toast.error(`Login failed: ${error}`);
     }
