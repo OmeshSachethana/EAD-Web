@@ -17,6 +17,7 @@ import AdminProductList from "./components/Admin/AdminProductList";
 import CustomersTable from "./components/Customer/CustomersTable";
 import ViewProductsPage from "./pages/Products/ViewProductsPage";
 import AdminOrderListing from "./pages/Orders/AdminOrderListing";
+import Footer from "./components/Footer";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -135,7 +136,7 @@ const App = () => {
 
 
       </Routes>
-      
+      <Footer />
     </div>
   );
 };
