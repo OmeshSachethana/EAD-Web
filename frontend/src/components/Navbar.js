@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { Container, Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
+import logo from "../images/web-icon.jpeg";
 
 const MyNavbar = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -20,14 +21,14 @@ const MyNavbar = () => {
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
-            src="/logo.png"
+            src={logo} // Use the imported logo here
             alt="logo"
             width="40"
             height="40"
             className="d-inline-block align-top"
             style={{ marginRight: "10px" }}
           />
-          Ecommerce
+          NextGenMarket
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
