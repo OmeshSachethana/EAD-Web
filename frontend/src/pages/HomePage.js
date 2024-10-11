@@ -1,10 +1,29 @@
 // src/pages/HomePage.js
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Container, Row, Col, Card, Modal, Button } from 'react-bootstrap';
+import { fetchLowStockProducts } from '../features/products/productSlice';
 
 const HomePage = () => {
   const { user } = useSelector((state) => state.auth); // Get user from Redux
+  const dispatch = useDispatch();
+  const lowStockProducts = useSelector((state) => state.products.lowStockItems); // Get low stock products from Redux
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (user?.role === 'Vendor') {
+      // Dispatch action to fetch low stock products
+      dispatch(fetchLowStockProducts());
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    if (lowStockProducts.length > 0) {
+      setShowPopup(true); // Show popup if there are low-stock products
+    }
+  }, [lowStockProducts]);
+
+  const handleClose = () => setShowPopup(false);
 
   return (
     <Container className="mt-5">
@@ -25,6 +44,30 @@ const HomePage = () => {
           </Card>
         </Col>
       </Row>
+
+      {/* Low Stock Popup */}
+      <Modal show={showPopup} onHide={handleClose} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Low Stock Products</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul>
+            {lowStockProducts.map((product) => (
+              <li key={product._id}>
+                <strong>{product.name}</strong> - Only {product.quantity} left in stock.
+              </li>
+            ))}
+          </ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Background Tint when Popup is open */}
+      {showPopup && <div className="overlay"></div>}
     </Container>
   );
 };

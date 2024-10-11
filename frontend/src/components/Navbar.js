@@ -80,6 +80,18 @@ const MyNavbar = () => {
                     </NavDropdown.Item>
                   )}
 
+                  {(user?.role.includes("Vendor")) && (
+                    <NavDropdown.Item as={Link} to="/inventoryview">
+                      Inventory
+                    </NavDropdown.Item>
+                  )}
+
+                  {(user?.role.includes("Administrator")) && (
+                    <NavDropdown.Item as={Link} to="/vendorAdd">
+                      Create Vendor
+                    </NavDropdown.Item>
+                  )}
+
                   {/* Show Check Order Status for all role */}
                   <NavDropdown.Item as={Link} to="/orders/status">
                     Check Order Status
