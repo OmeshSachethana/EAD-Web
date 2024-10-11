@@ -1,4 +1,3 @@
-// src/pages/HomePage.js
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
@@ -14,13 +13,23 @@ const HomePage = () => {
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={8}>
-          <Card className="text-center shadow-lg p-3 mb-5 bg-white rounded">
-            <Card.Header className="bg-primary text-white">
+          <Card className="text-center shadow-lg p-4 mb-5 bg-white rounded" style={{ borderRadius: '15px', border: 'none' }}>
+            <Card.Header
+              className="bg-gradient bg-primary text-white p-3"
+              style={{
+                borderTopLeftRadius: '15px',
+                borderTopRightRadius: '15px',
+                fontSize: '1.5rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <FaShoppingCart className="me-2" />
-              Welcome to the NexGenMarket
+              Welcome to NexGenMarket
             </Card.Header>
             <Card.Body>
-              <Card.Title className="display-4 mb-4">
+              <Card.Title className="display-4 mb-4" style={{ fontWeight: 'bold', fontSize: '2.5rem', color: '#343a40' }}>
                 {user ? (
                   <>
                     <FaUserCircle size={50} className="me-2" />
@@ -34,16 +43,17 @@ const HomePage = () => {
                 src={user ? "/assets/user-dashboard.png" : "/assets/welcome-shopping.jpg"}
                 fluid
                 rounded
-                className="mb-4"
+                className="mb-4 shadow-sm"
+                style={{ maxHeight: '300px', objectFit: 'cover', borderRadius: '10px' }}
                 alt={user ? "User Dashboard" : "Welcome to Shopping"}
               />
               {user ? (
-                <Card.Text>
+                <Card.Text className="lead" style={{ fontSize: '1.25rem', color: '#6c757d' }}>
                   You are logged in as <strong>{user.email}</strong> with the role of{' '}
                   <strong>{user.role}</strong>.
                 </Card.Text>
               ) : (
-                <Card.Text>
+                <Card.Text className="lead" style={{ fontSize: '1.25rem', color: '#6c757d' }}>
                   Log in to personalize your experience and access exclusive offers!
                 </Card.Text>
               )}
@@ -52,39 +62,71 @@ const HomePage = () => {
                   <>
                     {user.role === 'Administrator' && (
                       <>
-                        <Button variant="info" size="lg" href={browseProductsLink} className="me-3">
+                        <Button
+                          variant="info"
+                          size="lg"
+                          href={browseProductsLink}
+                          className="me-3"
+                          style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                        >
                           Browse Products
                         </Button>
-                        <Button variant="warning" size="lg" href="/customers">
+                        <Button
+                          variant="warning"
+                          size="lg"
+                          href="/customers"
+                          style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                        >
                           Manage Profiles
                         </Button>
                       </>
                     )}
                     {user.role === 'CSR' && (
-                      <Button variant="warning" size="lg" href="/customers">
+                      <Button
+                        variant="warning"
+                        size="lg"
+                        href="/customers"
+                        style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                      >
                         Manage Profiles
                       </Button>
                     )}
                     {user.role !== 'Administrator' && user.role !== 'CSR' && (
-                      <Button variant="info" size="lg" href={browseProductsLink}>
+                      <Button
+                        variant="info"
+                        size="lg"
+                        href={browseProductsLink}
+                        style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                      >
                         Browse Products
                       </Button>
                     )}
                   </>
                 ) : (
                   <>
-                    <Button variant="primary" size="lg" href="/login" className="me-3">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      href="/login"
+                      className="me-3"
+                      style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                    >
                       <FaSignInAlt className="me-2" />
                       Log in
                     </Button>
-                    <Button variant="secondary" size="lg" href="/register">
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      href="/register"
+                      style={{ boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)' }}
+                    >
                       Register
                     </Button>
                   </>
                 )}
               </div>
             </Card.Body>
-            <Card.Footer className="text-muted">
+            <Card.Footer className="bg-light text-muted p-3" style={{ borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px' }}>
               {user ? "Enjoy shopping with us, and don't forget to check your wishlist!" : "Join now to get access to exclusive member-only discounts."}
             </Card.Footer>
           </Card>
