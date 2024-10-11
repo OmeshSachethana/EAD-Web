@@ -2,6 +2,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import './App.css';  // Ensure this line is present in App.js or index.js
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -13,6 +14,11 @@ import CancelOrderPage from "./pages/Orders/CancelOrderPage";
 import DeliverOrderPage from "./pages/Orders/DeliverOrderPage";
 import ShipOrderPage from "./pages/Orders/ShipOrderPage";
 import OrderStatusPage from "./pages/Orders/OrderStatusPage"
+import InventoryView from "./pages/Inventory/inventory"
+import AddVendorPage from "./pages/AddVendor"; 
+import AddProductPage from "./pages/AddProduct"; 
+import DeleteProductPage from "./pages/DeleteProducts"; 
+import RefillProductPage from "./pages/RefillProducts"; 
 
 const App = () => {
   const { token } = useSelector((state) => state.auth); // Get the authentication token
@@ -88,6 +94,46 @@ const App = () => {
           element={
             <ProtectedRoute token={token}>
               <OrderStatusPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/inventoryview"
+          element={
+            <ProtectedRoute token={token}>
+              <InventoryView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/vendorAdd"
+          element={
+            <ProtectedRoute token={token}>
+              <AddVendorPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/productAdd"
+          element={
+            <ProtectedRoute token={token}>
+              <AddProductPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/deleteProduct"
+          element={
+            <ProtectedRoute token={token}>
+              <DeleteProductPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/refillProduct"
+          element={
+            <ProtectedRoute token={token}>
+              <RefillProductPage />
             </ProtectedRoute>
           }
         />
