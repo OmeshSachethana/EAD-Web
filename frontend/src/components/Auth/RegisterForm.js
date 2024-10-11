@@ -4,6 +4,7 @@ import { register } from '../../features/auth/authSlice';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from "../../images/web-icon.jpeg"; // Import the logo
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -41,6 +42,10 @@ const RegisterForm = () => {
         <Col md={6} lg={5}>
           <Card className="shadow-sm">
             <Card.Body>
+              {/* Add logo on top of the form */}
+              <div className="text-center mb-4">
+                <img src={logo} alt="Logo" style={{ width: '100px', height: '100px' }} />
+              </div>
               <h3 className="text-center mb-4">Register</h3>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form onSubmit={handleSubmit}>

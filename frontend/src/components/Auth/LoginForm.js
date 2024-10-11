@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../features/auth/authSlice';
-import { Form, Button, Alert, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Form, Button, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from "../../images/web-icon.jpeg";
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -30,8 +31,11 @@ const LoginForm = () => {
         <Col md={6} lg={4}>
           <Card className="shadow-sm">
             <Card.Body>
+              {/* Add logo on top of the form */}
+              <div className="text-center mb-4">
+                <img src={logo} alt="Logo" style={{ width: '100px', height: '100px' }} />
+              </div>
               <h3 className="text-center mb-4">Login</h3>
-              {/* {error && <Alert variant="danger">{error}</Alert>} */}
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formEmail" className="mb-3">
                   <Form.Label>Email</Form.Label>
