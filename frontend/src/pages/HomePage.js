@@ -50,9 +50,26 @@ const HomePage = () => {
               <div className="mt-4">
                 {user ? (
                   <>
-                    <Button variant="info" size="lg" href={browseProductsLink}>
-                      Browse Products
-                    </Button>
+                    {user.role === 'Administrator' && (
+                      <>
+                        <Button variant="info" size="lg" href={browseProductsLink} className="me-3">
+                          Browse Products
+                        </Button>
+                        <Button variant="warning" size="lg" href="/customers">
+                          Manage Profiles
+                        </Button>
+                      </>
+                    )}
+                    {user.role === 'CSR' && (
+                      <Button variant="warning" size="lg" href="/customers">
+                        Manage Profiles
+                      </Button>
+                    )}
+                    {user.role !== 'Administrator' && user.role !== 'CSR' && (
+                      <Button variant="info" size="lg" href={browseProductsLink}>
+                        Browse Products
+                      </Button>
+                    )}
                   </>
                 ) : (
                   <>
