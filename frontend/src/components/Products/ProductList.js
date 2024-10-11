@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct, updateProduct } from '../../features/products/productSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button, Form } from 'react-bootstrap'; // Bootstrap Modal
+import { Modal, Button, Form, Spinner } from 'react-bootstrap'; // Bootstrap Modal
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast notifications
 
@@ -106,7 +106,15 @@ const ProductList = () => {
         }
     };
 
-    if (loading) return <div className="text-center">Loading...</div>;
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
+        );
+    }
 
     // Group products by category
     const productsByCategory = products.reduce((acc, product) => {
