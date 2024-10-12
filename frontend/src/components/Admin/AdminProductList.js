@@ -29,7 +29,16 @@ const AdminProductList = () => {
             });
     };
 
-    if (loading) return <div className="text-center">Loading...</div>;
+    // Show loader while fetching data
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     // Filter products based on the selected filter
     const filteredProducts = products.filter((product) => {

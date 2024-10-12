@@ -63,7 +63,8 @@ const MyNavbar = () => {
               </Nav.Item>
             )}
             {/* Conditionally render Admin Products for Administrators */}
-            {user?.role.includes("Administrator") && (
+            {(user?.role.includes("Administrator") ||
+                    user?.role.includes("CSR")) && (
               <Nav.Item className="me-3">
                 <Nav.Link as={Link} to="/customers" className="text-light">
                   Customer
@@ -150,7 +151,7 @@ const MyNavbar = () => {
                 </Nav.Item>
                 <Nav.Item>
                   <Button
-                    variant="primary"
+                    variant="outline-light"
                     as={Link}
                     to="/register"
                     className="rounded-pill px-3"

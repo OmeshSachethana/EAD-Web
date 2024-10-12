@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCustomers, updateCustomerActiveStatus } from '../../features/auth/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomersTable = () => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const CustomersTable = () => {
             username: customer.username, 
             email: customer.email, 
             role: customer.role, 
-            password: customer.password // You may want to handle password securely
+            password: customer.password // Handle password securely
         }));
 
         // Show a toast notification
@@ -31,10 +32,20 @@ const CustomersTable = () => {
         }
     };
 
+    // Show loader while fetching customers
+    if (status === 'loading') {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Customers List</h2>
-            {status === 'loading' && <div className="alert alert-info">Loading...</div>}
             {error && <div className="alert alert-danger">Error: {typeof error === 'object' ? JSON.stringify(error) : error}</div>}
 
             {customers.length > 0 ? (
