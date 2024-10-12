@@ -151,7 +151,7 @@ const MyNavbar = () => {
                 </Nav.Item>
                 <Nav.Item>
                   <Button
-                    variant="primary"
+                    variant="outline-light"
                     as={Link}
                     to="/register"
                     className="rounded-pill px-3"

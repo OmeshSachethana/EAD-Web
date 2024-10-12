@@ -127,7 +127,7 @@ const HomePage = () => {
               </div>
             </Card.Body>
             <Card.Footer className="bg-light text-muted p-3" style={{ borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px' }}>
-              {user ? "Enjoy shopping with us, and don't forget to check your wishlist!" : "Join now to get access to exclusive member-only discounts."}
+              {user ? "Manage product status, user accounts, and orders to ensure a smooth shopping experience." : "Manage product listings to ensure a smooth shopping experience."}
             </Card.Footer>
           </Card>
         </Col>
